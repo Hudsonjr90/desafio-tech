@@ -50,10 +50,10 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-6 sm:py-8">
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Criar conta</CardTitle>
+          <CardTitle className="text-xl font-bold sm:text-2xl">Criar conta</CardTitle>
           <p className="text-sm text-muted-foreground">Preencha os dados para acessar sua conta</p>
         </CardHeader>
 
