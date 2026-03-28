@@ -20,17 +20,17 @@ export function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Olá, {user?.name ?? "Usuário"}</h1>
+          <h1 className="text-xl leading-tight font-bold sm:text-2xl">Olá, {user?.name ?? "Usuário"}</h1>
           <p className="text-sm text-muted-foreground">Bem-vindo à sua conta digital</p>
         </div>
 
-        <div className="flex gap-2">
-          <Button asChild>
+        <div className="grid w-full gap-2 sm:flex sm:w-auto">
+          <Button asChild className="w-full sm:w-auto">
             <Link to="/transfer">Nova transferência</Link>
           </Button>
-          <Button variant="outline" className="cursor-pointer" onClick={handleLogout}>
+          <Button variant="outline" className="w-full cursor-pointer sm:w-auto" onClick={handleLogout}>
             Sair
           </Button>
         </div>

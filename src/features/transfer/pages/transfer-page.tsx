@@ -27,14 +27,14 @@ export function TransferPage() {
 
   return (
     <AppShell>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Nova transferência</h1>
-        <Button variant="outline" onClick={() => navigate(-1)}>
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-xl font-bold sm:text-2xl">Nova transferência</h1>
+        <Button variant="outline" className="w-full sm:w-auto" onClick={() => navigate(-1)}>
           Voltar
         </Button>
       </div>
 
-      <Card className="border-border bg-card">
+      <Card className="mx-auto w-full max-w-2xl border-border bg-card">
         <CardHeader>
           <CardTitle>Enviar dinheiro</CardTitle>
           <p className="text-sm text-muted-foreground">
