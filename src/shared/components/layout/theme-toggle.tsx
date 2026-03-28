@@ -14,6 +14,7 @@ export function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label="Alternar tema"
       title={isDark ? "Mudar para tema claro" : "Mudar para tema escuro"}
+      className="cursor-pointer"
     >
       {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </Button>
