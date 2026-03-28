@@ -13,7 +13,7 @@ export function BalanceCard({ balance }: BalanceCardProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-3xl font-bold text-emerald-400">
+        <p className="text-2xl font-bold text-emerald-400 sm:text-3xl">
           {balance.toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",

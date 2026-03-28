@@ -18,7 +18,7 @@ export function TransactionList({ transactions }: TransactionListProps) {
           transactions.map((transaction) => (
             <div
               key={transaction.id}
-              className="flex items-center justify-between rounded-lg border border-border p-3"
+              className="flex flex-col items-start gap-2 rounded-lg border border-border p-3 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
                 <p className="font-medium text-foreground">{transaction.recipient}</p>
@@ -27,7 +27,7 @@ export function TransactionList({ transactions }: TransactionListProps) {
                 </p>
               </div>
 
-              <div className="text-right">
+              <div className="text-left sm:text-right">
                 <p className="font-semibold text-rose-400">
                   -{" "}
                   {transaction.amount.toLocaleString("pt-BR", {
