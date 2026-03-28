@@ -2,72 +2,118 @@
 
 Aplicação web que simula um app bancário simples, desenvolvida como solução para o desafio técnico da Onda Finance.
 
-## Tecnologias utilizadas
+## Demo
 
-- React + TypeScript
+- Produção (Vercel): https://ondafinance-tech.vercel.app
+
+## Tecnologias
+
+- React 19 + TypeScript
 - Vite
 - Tailwind CSS v4
-- CVA
 - shadcn/ui + Radix UI
 - React Router
-- React Query
 - Zustand
 - React Hook Form + Zod
+- React Query
+- Sonner
 - Axios
 - Vitest + Testing Library
 
 ## Funcionalidades
 
-- Login mockado com persistência de sessão
-- Dashboard com exibição de saldo
+- Cadastro mockado de usuário (nome, sobrenome, e-mail e senha)
+- Login por credenciais cadastradas
+- Persistência de sessão e usuários mockados com Zustand Persist
+- Dashboard com saudação dinâmica usando o nome do usuário autenticado
 - Listagem de transações mockadas
-- Transferência com validação de formulário
-- Atualização do saldo em tempo real
+- Modal/Dialog com detalhes da transação ao clicar no item
+- Fluxo de transferência com validações de formulário
+- Atualização de saldo e transações no estado local
 - Rotas protegidas
+- Alternância de tema (dark/light)
+- Layout responsivo para mobile e desktop
 
-## Como rodar o projeto, testes e build
+## Rotas
+
+- `/login`: autenticação
+- `/register`: cadastro de novo usuário
+- `/`: dashboard (protegida)
+- `/transfer`: nova transferência (protegida)
+
+## Como rodar localmente
 
 ```bash
 npm install
 npm run dev
-npm run test
-npm run build
 ```
 
+Aplicação disponível em `http://localhost:5173`.
 
+## Scripts disponíveis
 
-## Decisões técnicas adotadas
+```bash
+npm run dev      # ambiente de desenvolvimento
+npm run build    # build de produção
+npm run preview  # pré-visualização do build
+npm run lint     # lint
+npm run test     # testes com vitest
+npm run test:ui  # interface gráfica do vitest
+```
 
-- Arquitetura feature-based: organização por domínio de negócio para facilitar escalabilidade e manutenção.
-- Zustand: utilizado para estado global simples e previsível, com persistência de sessão.
-- React Query: preparado para gerenciamento de dados assíncronos e cache.
-- React Hook Form + Zod: validação tipada e integração fluida com formulários.
-- shadcn/ui + Radix: componentes acessíveis, reutilizáveis e com boa base visual.
-- Tailwind + CVA: estilização consistente e componível.
+## Estrutura de pastas
+
+```txt
+src/
+	app/
+		providers/
+		router/
+	features/
+		auth/
+		dashboard/
+		transfer/
+		wallet/
+	shared/
+		components/
+		lib/
+		mocks/
+		types/
+	components/
+		ui/
+```
+
+## Decisões técnicas
+
+- Arquitetura feature-based para escalar por domínio de negócio.
+- Zustand para estado global simples e previsível.
+- Persistência local para simular autenticação sem backend.
+- React Hook Form + Zod para validação tipada.
+- shadcn/ui + Radix para acessibilidade e consistência de componentes.
+- Tailwind CSS para estilização rápida e responsiva.
+
+## Deploy na Vercel
+
+Para evitar erro `404` ao dar refresh em rotas como `/login` e `/transfer`, o projeto usa rewrite SPA em `vercel.json`:
+
+```json
+{
+	"rewrites": [
+		{
+			"source": "/(.*)",
+			"destination": "/index.html"
+		}
+	]
+}
+```
 
 ## Segurança (conceitual)
-Como proteger contra engenharia reversa
 
-Em uma aplicação real, o frontend nunca deve conter segredos, tokens privados ou regras críticas de negócio. Toda validação sensível deve ser feita no backend.
-
-Boas práticas:
-
-- Não expor chaves privadas no cliente
-- Evitar lógica crítica exclusivamente no frontend
-- Desabilitar source maps em produção, quando necessário
-- Utilizar ofuscação apenas como camada complementar (não como segurança principal)
-- Validar permissões e regras de negócio no backend
-
-## Como proteger contra vazamento de dados
-
-Em ambiente real, a proteção contra vazamento de dados exige uma combinação de segurança no transporte, armazenamento e controle de acesso.
+Este projeto usa autenticação mockada para fins de desafio técnico. Em produção, as validações sensíveis devem estar no backend.
 
 Boas práticas:
 
-- Utilizar HTTPS em todas as comunicações
-- Preferir cookies HttpOnly e Secure para tokens reais
-- Evitar armazenar dados sensíveis em localStorage
-- Sanitizar e validar dados recebidos no backend
-- Aplicar controle de acesso em rotas e endpoints
-- Evitar logs com dados sensíveis
-- Seguir o princípio do menor privilégio
+- Não expor segredos/chaves no frontend
+- Validar autenticação e autorização no backend
+- Usar HTTPS em todo o tráfego
+- Evitar armazenamento de dados sensíveis no cliente
+- Aplicar princípio do menor privilégio
