@@ -1,19 +1,21 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { loginSchema, type LoginFormData } from "@/features/auth/schemas/login.schema"
 import { useAuthStore } from "@/features/auth/store/auth.store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const login = useAuthStore((state) => state.login)
+  const loginWithCredentials = useAuthStore((state) => state.loginWithCredentials)
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -26,11 +28,15 @@ export function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     await new Promise((resolve) => setTimeout(resolve, 600))
 
-    login({
-      id: crypto.randomUUID(),
-      name: "Hudson Kennedy",
-      email: data.email,
-    })
+    const result = loginWithCredentials(data.email, data.password)
+
+    if (!result.ok) {
+      setError("email", {
+        type: "manual",
+        message: result.message,
+      })
+      return
+    }
 
     navigate("/")
   }
@@ -46,7 +52,9 @@ export function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
+              <Label htmlFor="email">E-mail</Label>
               <Input
+                id="email"
                 type="email"
                 placeholder="E-mail"
                 {...register("email")}
@@ -57,7 +65,9 @@ export function LoginPage() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="password">Senha</Label>
               <Input
+                id="password"
                 type="password"
                 placeholder="Senha"
                 {...register("password")}
@@ -70,6 +80,13 @@ export function LoginPage() {
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? "Entrando..." : "Entrar"}
             </Button>
+
+            <p className="text-center text-sm text-muted-foreground">
+              Não possui conta?{" "}
+              <Link to="/register" className="font-medium text-primary hover:underline">
+                Cadastre-se
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>
