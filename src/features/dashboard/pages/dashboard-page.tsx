@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { BalanceCard } from "@/features/dashboard/components/balance-card"
 import { TransactionList } from "@/features/dashboard/components/transaction-list"
+import { useTransactions } from "@/features/dashboard/hooks/use-transaction"
 import { useAuthStore } from "@/features/auth/store/auth.store"
 import { useWalletStore } from "@/features/wallet/store/wallet.store"
 import { AppShell } from "@/shared/components/layout/app-shell"
@@ -9,7 +10,10 @@ import { AppShell } from "@/shared/components/layout/app-shell"
 export function DashboardPage() {
   const user = useAuthStore((state) => state.user)
   const balance = useWalletStore((state) => state.balance)
-  const transactions = useWalletStore((state) => state.transactions)
+  const newTransactions = useWalletStore((state) => state.transactions)
+  const { data: fetchedTransactions = [] } = useTransactions()
+
+  const transactions = [...newTransactions, ...fetchedTransactions]
 
   return (
     <AppShell>

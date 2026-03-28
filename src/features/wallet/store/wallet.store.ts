@@ -1,5 +1,4 @@
 import { create } from "zustand"
-import { mockTransactions } from "@/shared/mocks/transactions"
 import type { Transaction } from "@/shared/types"
 
 interface WalletState {
@@ -10,7 +9,7 @@ interface WalletState {
 
 export const useWalletStore = create<WalletState>((set) => ({
   balance: 1250.75,
-  transactions: mockTransactions,
+  transactions: [],
   addTransfer: (data) =>
     set((state) => ({
       balance: state.balance - data.amount,

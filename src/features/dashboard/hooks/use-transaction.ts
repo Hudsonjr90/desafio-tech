@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query"
-import { mockTransactions } from "@/shared/mocks/transactions"
+import { api } from "@/shared/lib/axios"
+import type { Transaction } from "@/shared/types"
 
 export function useTransactions() {
   return useQuery({
     queryKey: ["transactions"],
     queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      return mockTransactions
+      const response = await api.get<Transaction[]>("/transactions")
+      return response.data
     },
   })
 }
