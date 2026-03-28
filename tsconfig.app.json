@@ -11,6 +11,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "types": ["vite/client", "vitest/globals"],
 
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
