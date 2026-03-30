@@ -35,7 +35,33 @@ describe("TransferForm", () => {
 
     await user.click(screen.getByRole("button", { name: /transferir/i }))
 
-    expect(await screen.findByText(/saldo insuficiente/i)).toBeInTheDocument()
+    expect(await screen.findByText(/o valor não pode ser maior que r\$\s*100,00/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/valor/i)).toHaveValue("1000")
     expect(onSubmitTransfer).not.toHaveBeenCalled()
+  })
+
+  it("deve limitar a quantidade de caracteres digitados no valor", async () => {
+    const user = userEvent.setup()
+    const onSubmitTransfer = vi.fn()
+
+    render(
+      <TransferForm balance={999.99} onSubmitTransfer={onSubmitTransfer} />
+    )
+
+    const amountField = screen.getByLabelText(/valor/i)
+
+    await user.type(amountField, "1234567")
+
+    expect(amountField).toHaveValue("123456")
+  })
+
+  it("deve exibir o saldo máximo formatado em reais", () => {
+    const onSubmitTransfer = vi.fn()
+
+    render(
+      <TransferForm balance={1250.75} onSubmitTransfer={onSubmitTransfer} />
+    )
+
+    expect(screen.getByPlaceholderText("Disponível: R$ 1.250,75")).toBeInTheDocument()
   })
 })

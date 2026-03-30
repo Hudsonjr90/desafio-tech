@@ -19,17 +19,48 @@ export function TransferForm({
   onSubmitTransfer,
 }: TransferFormProps) {
   const schema = useMemo(() => createTransferSchema(balance), [balance])
+  const maxAmountLength = balance.toFixed(2).length
+  const formattedBalance = balance.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  })
 
   const {
     register,
     handleSubmit,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<TransferFormInput, unknown, TransferFormData>({
     resolver: zodResolver(schema),
+    mode: "onBlur",
+    reValidateMode: "onChange",
     defaultValues: {
       recipient: "",
-      amount: 0,
+      amount: undefined,
       description: "",
+    },
+  })
+
+  const normalizeAmountInput = (value: string) => {
+    const digitsAndSeparator = value.replace(",", ".").replace(/[^\d.]/g, "")
+    const [integerPart = "", ...decimalParts] = digitsAndSeparator.split(".")
+    const decimalPart = decimalParts.join("").slice(0, 2)
+    const normalizedValue = decimalPart ? `${integerPart}.${decimalPart}` : integerPart
+
+    return normalizedValue.slice(0, maxAmountLength)
+  }
+
+  const amountField = register("amount", {
+    setValueAs: (value) => {
+      if (value === "") {
+        return undefined
+      }
+
+      return Number(String(value).replace(",", "."))
+    },
+    onChange: (event) => {
+      event.target.value = normalizeAmountInput(event.target.value)
+      void trigger("amount")
     },
   })
 
@@ -52,11 +83,11 @@ export function TransferForm({
       <div className="space-y-2">
         <Input
           aria-label="Valor"
-          type="number"
-          step="0.01"
-          placeholder="Valor"
-          {...register("amount")}
-          
+          type="text"
+          inputMode="decimal"
+          maxLength={maxAmountLength}
+          placeholder={`Disponível: ${formattedBalance}`}
+          {...amountField}
         />
         {errors.amount && (
           <p className="text-sm text-rose-400">{errors.amount.message}</p>
