@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { registerSchema, type RegisterFormData } from "@/features/auth/schemas/register.schema"
 import { useAuthStore } from "@/features/auth/store/auth.store"
+import { ThemeToggle } from "@/shared/components/layout/theme-toggle"
 
 export function RegisterPage() {
   const navigate = useNavigate()
@@ -52,7 +53,11 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-6 sm:py-8">
+    <div className="relative flex min-h-screen items-center justify-center bg-background px-4 py-6 sm:py-8">
+      <div className="absolute right-4 top-4 sm:right-6 sm:top-6">
+        <ThemeToggle />
+      </div>
+
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader>
           <CardTitle className="text-xl font-bold sm:text-2xl">Criar conta</CardTitle>
