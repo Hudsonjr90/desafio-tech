@@ -1,8 +1,16 @@
 import { z } from "zod"
 
 export const loginSchema = z.object({
-  email: z.string().email("E-mail inválido"),
-  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  email: z
+    .string()
+    .trim()
+    .min(1, "E-mail é obrigatório")
+    .email("E-mail inválido"),
+  password: z
+    .string()
+    .min(1, "Senha é obrigatória")
+    .min(6, "A senha deve ter no mínimo 6 caracteres")
+    .regex(/^[A-Za-z\d@$!%*?&._\-#]+$/, "A senha contém caracteres inválidos"),
 })
 
 export type LoginFormData = z.infer<typeof loginSchema>
