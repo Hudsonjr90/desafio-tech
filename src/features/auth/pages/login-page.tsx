@@ -33,7 +33,7 @@ export function LoginPage() {
     const result = loginWithCredentials(data.email, data.password)
 
     if (!result.ok) {
-      setError("email", {
+      setError("password", {
         type: "manual",
         message: result.message,
       })
